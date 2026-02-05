@@ -1,0 +1,108 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "weidu-log-builder"
+version = "0.1.0"
+description = "Desktop wizard tool for BGEE/BG2EE/EET mod selection, ordering, export, and unattended install."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+authors = [{ name = "WLB Contributors" }]
+keywords = ["baldurs gate", "weidu", "modding", "qt", "pyside6"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: End Users/Desktop",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+  "PySide6>=6.7",
+  "platformdirs>=4.2",
+  "PyYAML>=6.0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.2",
+  "pytest-qt>=4.4",
+  "ruff>=0.6.8",
+  "mypy>=1.11",
+  "types-PyYAML>=6.0.12.20240808",
+  "pyinstaller>=6.18",
+]
+
+[dependency-groups]
+dev = [
+  "pytest>=8.2",
+  "pytest-qt>=4.4",
+  "ruff>=0.6.8",
+  "mypy>=1.11",
+  "types-PyYAML>=6.0.12.20240808",
+  "pyinstaller>=6.18",
+]
+
+[project.scripts]
+wlb = "wlb.main:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["wlb*"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["src", "tests"]
+fix = true
+
+[tool.ruff.lint]
+select = [
+  "E",   # pycodestyle errors
+  "F",   # pyflakes
+  "I",   # isort
+  "UP",  # pyupgrade
+  "B",   # flake8-bugbear
+  "SIM", # flake8-simplify
+]
+ignore = [
+  "E501", # let formatter handle line length
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[tool.mypy]
+python_version = "3.12"
+warn_unused_configs = true
+warn_unused_ignores = true
+no_implicit_optional = true
+check_untyped_defs = true
+disallow_any_generics = true
+warn_return_any = true
+pretty = true
+
+[[tool.mypy.overrides]]
+module = ["PySide6.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["-ra"]
+xfail_strict = true
+
+[tool.coverage.run]
+branch = true
+source = ["wlb"]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
