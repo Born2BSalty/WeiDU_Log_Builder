@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from PySide6.QtGui import QShowEvent
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
 
 from wlb.app.composition_root import (
@@ -81,7 +82,7 @@ class WizardWindow(QMainWindow):
     def _apply_page_size(self) -> None:
         self.resize(1280, 780)
 
-    def showEvent(self, event) -> None:  # type: ignore[override]
+    def showEvent(self, event: QShowEvent) -> None:
         super().showEvent(event)
         self._apply_page_size()
 
