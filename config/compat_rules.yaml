@@ -1,0 +1,127 @@
+# Compatibility rules for greying out components after scan.
+# Each rule matches by mod header name and optional component substring or id.
+# issue types: included, not_needed, not_compatible, warning, conflict
+#
+# Example (copy/paste and edit):
+# - mod: "bg1ub"
+#   component: "Ice Island Level Two Restoration"
+#   mode: "EET"              # optional: only apply when tab selection is EET/BGEE/BG2EE
+#   tab: [["bgee","bg2ee"]]            # or ["bg2ee"] or [["bgee","bg2ee"],"bg2ee"]
+#   min_tab_version: "2.5"
+#   issue: "included"
+#   message: "Already included in BG:EE v2.5+."
+rules:
+  - mod: "bg1ub"
+    component: "Restored Elfsong Tavern Movie"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "not_compatible"
+    message: "Not compatible with BG:EE."
+  - mod: "bg1ub"
+    component: "Finishable Kagain Caravan Quest"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    min_tab_version: "2.5"
+    message: "Already included in BG:EE v2.5+."
+  - mod: "bg1ub"
+    component: "The Mysterious Vial"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    min_tab_version: "2.5"
+    message: "Already included in BG:EE v2.5+."
+  - mod: "bg1ub"
+    component: "Additional Elminster Encounter"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    message: "Already fixed in BGEE/BGT."
+  - mod: "bg1ub"
+    component: "Flaming Fist Mercenary Reinforcements"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    message: "Already included in BG:EE."
+  - mod: "bg1ub"
+    component: "Appropriate Albert and Rufie Reward"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    message: "Already included in BG:EE."
+  - mod: "bg1ub"
+    component: "Prism and the Emeralds Tweak"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    min_tab_version: "2.5"
+    message: "Already included in BG:EE v2.5+."
+  - mod: "bg1ub"
+    component: "Branwen and Tranzig"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    min_tab_version: "2.5"
+    message: "Already included in BG:EE v2.5+."
+  - mod: "bg1ub"
+    component: "Kivan and Tazok"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    min_tab_version: "2.5"
+    message: "Already included in BG:EE v2.5+."
+  - mod: "bg1ub"
+    component: "Coran and the Wyverns"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    message: "Already included in BG:EE."
+  - mod: "bg1ub"
+    component: "Place Entar Silvershield in His Home"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    min_tab_version: "2.5"
+    message: "Already included in BG:EE v2.5+."
+  - mod: "bg1ub"
+    component: "Safana the Flirt"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    message: "Already included in BG:EE."
+  - mod: "bg1ub"
+    component: "Audio Restorations"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    message: "Already included in BG:EE."
+  - mod: "bg1ub"
+    component: "Area Corrections and Restorations"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    message: "Already included in BG:EE."
+  - mod: "bg1ub"
+    component: "Permanent Corpses"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    message: "Already included in BG:EE."
+  - mod: "bg1ub"
+    component: "Elven Charm"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    message: "Already included in BG:EE."
+  - mod: "bg1ub"
+    component: "Original Saga Music Playlist Corrections"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    message: "Already included in BG:EE."
+  - mod: "bg1ub"
+    component: "Sarevok's Diary Corrections"
+    mode: ["EET", "BGEE", "BG2EE"]
+    tab: ["bgee","bg2ee"]
+    kind: "included"
+    message: "Already included in BG:EE."
