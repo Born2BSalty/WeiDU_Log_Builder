@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import subprocess
+import sys
 import threading
 import time
 from collections.abc import Callable
@@ -36,6 +37,9 @@ class SubprocessInstaller(InstallPort):
             try:
                 out_path = (cwd or Path.cwd()) / ".wlb_install_out.txt"
                 with out_path.open("w", encoding="utf-8", errors="ignore") as out_file:
+                    creationflags = 0
+                    if sys.platform == "win32":
+                        creationflags = getattr(subprocess, "CREATE_NO_WINDOW", 0)
                     self._process = subprocess.Popen(
                         argv,
                         cwd=str(cwd) if cwd else None,
@@ -45,6 +49,7 @@ class SubprocessInstaller(InstallPort):
                         stderr=subprocess.STDOUT,
                         text=True,
                         bufsize=1,
+                        creationflags=creationflags,
                     )
                     process = self._process
                     on_output(f"Process started (pid {process.pid})")
