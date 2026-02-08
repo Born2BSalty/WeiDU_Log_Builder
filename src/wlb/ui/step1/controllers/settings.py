@@ -79,6 +79,34 @@ def wire_settings(sections: SetupSections, settings: QSettings) -> None:
     sections.install_log_checkbox.toggled.connect(
         lambda value: settings.setValue("setup/log_install", value)
     )
+    sections.custom_depth_checkbox.toggled.connect(
+        lambda value: settings.setValue("setup/custom_depth_enabled", value)
+    )
+    sections.depth_input.valueChanged.connect(lambda value: settings.setValue("setup/depth", value))
+    sections.timeout_checkbox.toggled.connect(
+        lambda value: settings.setValue("setup/timeout_enabled", value)
+    )
+    sections.timeout_input.valueChanged.connect(
+        lambda value: settings.setValue("setup/timeout", value)
+    )
+    sections.weidu_log_mode_checkbox.toggled.connect(
+        lambda value: settings.setValue("setup/weidu_log_mode_enabled", value)
+    )
+    sections.weidu_log_autolog_checkbox.toggled.connect(
+        lambda value: settings.setValue("setup/weidu_log_autolog", value)
+    )
+    sections.weidu_log_logapp_checkbox.toggled.connect(
+        lambda value: settings.setValue("setup/weidu_log_logapp", value)
+    )
+    sections.weidu_log_logextern_checkbox.toggled.connect(
+        lambda value: settings.setValue("setup/weidu_log_logextern", value)
+    )
+    sections.weidu_log_log_checkbox.toggled.connect(
+        lambda value: settings.setValue("setup/weidu_log_log", value)
+    )
+    sections.weidu_log_picker.edit.textChanged.connect(
+        lambda value: settings.setValue("setup/weidu_log_folder", value)
+    )
     sections.pre_eet_checkbox.toggled.connect(
         lambda value: settings.setValue("setup/pre_eet_enabled", value)
     )
@@ -88,21 +116,11 @@ def wire_settings(sections: SetupSections, settings: QSettings) -> None:
     sections.generate_dir_checkbox.toggled.connect(
         lambda value: settings.setValue("setup/generate_enabled", value)
     )
-    sections.custom_depth_checkbox.toggled.connect(
-        lambda value: settings.setValue("setup/custom_depth_enabled", value)
-    )
-    sections.depth_input.valueChanged.connect(lambda value: settings.setValue("setup/depth", value))
     sections.skip_installed_checkbox.toggled.connect(
         lambda value: settings.setValue("setup/skip_installed", value)
     )
     sections.abort_warnings_checkbox.toggled.connect(
         lambda value: settings.setValue("setup/abort_warnings", value)
-    )
-    sections.timeout_checkbox.toggled.connect(
-        lambda value: settings.setValue("setup/timeout_enabled", value)
-    )
-    sections.timeout_input.valueChanged.connect(
-        lambda value: settings.setValue("setup/timeout", value)
     )
     sections.overwrite_checkbox.toggled.connect(
         lambda value: settings.setValue("setup/overwrite", value)
@@ -112,12 +130,6 @@ def wire_settings(sections: SetupSections, settings: QSettings) -> None:
     )
     sections.download_checkbox.toggled.connect(
         lambda value: settings.setValue("setup/download", value)
-    )
-    sections.per_component_checkbox.toggled.connect(
-        lambda value: settings.setValue("setup/component_logs", value)
-    )
-    sections.component_logs_picker.edit.textChanged.connect(
-        lambda value: settings.setValue("setup/component_logs_folder", value)
     )
     sections.tick_checkbox.toggled.connect(
         lambda value: settings.setValue("setup/tick_enabled", value)
@@ -132,6 +144,9 @@ def wire_settings(sections: SetupSections, settings: QSettings) -> None:
 
 
 def load_settings(sections: SetupSections, settings: QSettings) -> None:
+    settings.remove("setup/skip_installed")
+    settings.remove("setup/download")
+    settings.remove("setup/has_logs")
     sections.game_select.setCurrentText(settings.value("setup/game", "BGEE"))
     sections.mods_picker.set_text(settings.value("setup/mods_folder", ""))
     sections.weidu_picker.set_text(settings.value("setup/weidu_path", ""))
@@ -152,34 +167,44 @@ def load_settings(sections: SetupSections, settings: QSettings) -> None:
     sections.bg2ee_generate_picker.set_text(settings.value("setup/bg2ee_generate_dir", ""))
     sections.eet_pre_picker.set_text(settings.value("setup/eet_pre_dir", ""))
     sections.eet_new_picker.set_text(settings.value("setup/eet_new_dir", ""))
-    sections.logs_checkbox.setChecked(settings.value("setup/has_logs", False, type=bool))
+    sections.logs_checkbox.setChecked(False)
     sections.install_log_checkbox.setChecked(settings.value("setup/log_install", False, type=bool))
+    sections.custom_depth_checkbox.setChecked(
+        settings.value("setup/custom_depth_enabled", False, type=bool)
+    )
+    sections.depth_input.setValue(int(settings.value("setup/depth", 5)))
+    sections.timeout_checkbox.setChecked(settings.value("setup/timeout_enabled", False, type=bool))
+    sections.timeout_input.setValue(int(settings.value("setup/timeout", 3600)))
+    sections.weidu_log_mode_checkbox.setChecked(
+        settings.value("setup/weidu_log_mode_enabled", False, type=bool)
+    )
+    sections.weidu_log_autolog_checkbox.setChecked(
+        settings.value("setup/weidu_log_autolog", True, type=bool)
+    )
+    sections.weidu_log_logapp_checkbox.setChecked(
+        settings.value("setup/weidu_log_logapp", True, type=bool)
+    )
+    sections.weidu_log_logextern_checkbox.setChecked(
+        settings.value("setup/weidu_log_logextern", True, type=bool)
+    )
+    sections.weidu_log_log_checkbox.setChecked(
+        settings.value("setup/weidu_log_log", False, type=bool)
+    )
+    sections.weidu_log_picker.set_text(settings.value("setup/weidu_log_folder", ""))
     sections.pre_eet_checkbox.setChecked(settings.value("setup/pre_eet_enabled", False, type=bool))
     sections.new_eet_checkbox.setChecked(settings.value("setup/new_eet_enabled", False, type=bool))
     sections.generate_dir_checkbox.setChecked(
         settings.value("setup/generate_enabled", False, type=bool)
     )
-    sections.custom_depth_checkbox.setChecked(
-        settings.value("setup/custom_depth_enabled", False, type=bool)
-    )
-    sections.depth_input.setValue(int(settings.value("setup/depth", 5)))
-    sections.skip_installed_checkbox.setChecked(
-        settings.value("setup/skip_installed", True, type=bool)
-    )
+    sections.skip_installed_checkbox.setChecked(True)
     sections.abort_warnings_checkbox.setChecked(
         settings.value("setup/abort_warnings", False, type=bool)
     )
-    sections.timeout_checkbox.setChecked(settings.value("setup/timeout_enabled", False, type=bool))
-    sections.timeout_input.setValue(int(settings.value("setup/timeout", 3600)))
     sections.overwrite_checkbox.setChecked(settings.value("setup/overwrite", False, type=bool))
     sections.strict_matching_checkbox.setChecked(
         settings.value("setup/strict_matching", False, type=bool)
     )
-    sections.download_checkbox.setChecked(settings.value("setup/download", False, type=bool))
-    sections.per_component_checkbox.setChecked(
-        settings.value("setup/component_logs", False, type=bool)
-    )
-    sections.component_logs_picker.set_text(settings.value("setup/component_logs_folder", ""))
+    sections.download_checkbox.setChecked(True)
     sections.tick_checkbox.setChecked(settings.value("setup/tick_enabled", False, type=bool))
     sections.tick_input.setValue(int(settings.value("setup/tick", 500)))
     sections.debug_checkbox.setChecked(settings.value("setup/rust_log_debug", False, type=bool))

@@ -38,8 +38,9 @@ class SetupPage(PageScaffold):
         self.sections.logs_checkbox.toggled.connect(self._on_logs_toggled)
         self.sections.debug_checkbox.toggled.connect(self._on_debug_toggled)
         self.sections.trace_checkbox.toggled.connect(self._on_trace_toggled)
-        self.sections.per_component_checkbox.toggled.connect(self._on_component_logs_toggled)
-        self.sections.component_logs_picker.edit.textChanged.connect(
+        self.sections.weidu_log_mode_checkbox.toggled.connect(self._on_log_mode_toggled)
+        self.sections.weidu_log_log_checkbox.toggled.connect(self._on_per_component_toggled)
+        self.sections.weidu_log_picker.edit.textChanged.connect(
             self._on_component_logs_path_changed
         )
         self.sections.generate_dir_checkbox.toggled.connect(self._on_generate_dir_toggled)
@@ -49,7 +50,8 @@ class SetupPage(PageScaffold):
         load_settings(self.sections, self._settings)
         wire_settings(self.sections, self._settings)
         self._on_logs_toggled(self.sections.logs_checkbox.isChecked())
-        self._on_component_logs_toggled(self.sections.per_component_checkbox.isChecked())
+        self._on_log_mode_toggled(self.sections.weidu_log_mode_checkbox.isChecked())
+        self._on_per_component_toggled(self.sections.weidu_log_log_checkbox.isChecked())
         self._on_generate_dir_toggled(self.sections.generate_dir_checkbox.isChecked())
         self._on_pre_eet_toggled(self.sections.pre_eet_checkbox.isChecked())
         self._on_new_eet_toggled(self.sections.new_eet_checkbox.isChecked())
@@ -79,11 +81,25 @@ class SetupPage(PageScaffold):
         if checked:
             self.sections.debug_checkbox.setChecked(False)
 
-    def _on_component_logs_toggled(self, checked: bool) -> None:
+    def _on_log_mode_toggled(self, checked: bool) -> None:
         self.sections.component_logs_box.setVisible(checked)
-        self.sections.component_logs_note.setVisible(False)
+        if not checked:
+            self.sections.component_logs_note.setVisible(False)
+            self.sections.weidu_log_label.setVisible(False)
+            self.sections.weidu_log_picker.setVisible(False)
+        else:
+            self._on_per_component_toggled(self.sections.weidu_log_log_checkbox.isChecked())
+
+    def _on_per_component_toggled(self, checked: bool) -> None:
+        self.sections.weidu_log_label.setVisible(checked)
+        self.sections.weidu_log_picker.setVisible(checked)
+        if not checked:
+            self.sections.component_logs_note.setVisible(False)
 
     def _on_component_logs_path_changed(self, text: str) -> None:
+        if not self.sections.weidu_log_log_checkbox.isChecked():
+            self.sections.component_logs_note.setVisible(False)
+            return
         if " " not in text:
             self.sections.component_logs_note.setVisible(False)
             return

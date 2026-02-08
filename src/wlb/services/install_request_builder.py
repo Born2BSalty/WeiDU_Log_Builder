@@ -122,11 +122,9 @@ class InstallRequestBuilder:
         flags.extend(["--overwrite", str(self._settings.overwrite()).lower()])
         if self._settings.timeout_enabled():
             flags.extend(["--timeout", str(self._settings.timeout())])
-        if self._settings.component_logs():
-            folder = self._settings.component_logs_folder()
-            if folder:
-                folder = self._sanitize_log_folder(folder)
-                mode = f"log {folder},logapp,log-extern"
+        if self._settings.weidu_log_mode_enabled():
+            mode = self._weidu_log_mode()
+            if mode:
                 flags.extend(["--weidu-log-mode", mode])
         if self._settings.tick_enabled():
             flags.extend(["--tick", str(self._settings.tick())])
@@ -146,6 +144,21 @@ class InstallRequestBuilder:
         except OSError:
             return folder
         return sanitized
+
+    def _weidu_log_mode(self) -> str:
+        parts: list[str] = []
+        if self._settings.weidu_log_autolog():
+            parts.append("autolog")
+        if self._settings.weidu_log_logapp():
+            parts.append("logapp")
+        if self._settings.weidu_log_logextern():
+            parts.append("log-extern")
+        if self._settings.weidu_log_log():
+            folder = self._settings.weidu_log_folder()
+            if folder:
+                folder = self._sanitize_log_folder(folder)
+                parts.append(f"log {folder}")
+        return ",".join(parts)
 
     def _add_eet_dirs(self, argv: list[str]) -> None:
         if self._settings.pre_eet_enabled():

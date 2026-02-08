@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from PySide6.QtWidgets import QCheckBox, QGridLayout, QGroupBox, QSpinBox
+from PySide6.QtWidgets import QCheckBox, QGridLayout, QGroupBox, QHBoxLayout, QSpinBox, QWidget
 
 
 def build_flags_section(
@@ -11,11 +11,7 @@ def build_flags_section(
     QCheckBox,
     QCheckBox,
     QCheckBox,
-    QSpinBox,
     QCheckBox,
-    QCheckBox,
-    QCheckBox,
-    QSpinBox,
     QCheckBox,
     QCheckBox,
     QCheckBox,
@@ -45,15 +41,8 @@ def build_flags_section(
     abort_warnings = QCheckBox("-a Abort on warnings")
     abort_warnings.setToolTip("If WeiDU prints warnings, abort the whole install immediately.")
 
-    custom_depth = QCheckBox("-d Custom scan depth")
-    custom_depth.setToolTip(
-        "How deep to scan mod folders for TP2s. Higher = slower, but finds mods buried in subfolders."
-    )
-    depth_input = QSpinBox()
-    depth_input.setMinimum(1)
-    depth_input.setMaximum(10)
-    depth_input.setValue(5)
-    depth_input.setEnabled(False)
+    weidu_log_mode = QCheckBox("-u WeiDU log mode")
+    weidu_log_mode.setToolTip("Choose the WeiDU log flags and optional per-component logs.")
 
     strict_matching = QCheckBox("-x Strict matching")
     strict_matching.setToolTip(
@@ -64,26 +53,13 @@ def build_flags_section(
     download.setToolTip(
         "If a mod is missing, prompt for a URL and try to download it automatically."
     )
+    download.setChecked(True)
 
     overwrite = QCheckBox("-o Overwrite mod folder")
     overwrite.setToolTip(
         "Force‑copy the mod folder into the game directory even if a folder with that name already "
         "exists. Useful if a previous install left a partial folder."
     )
-
-    timeout = QCheckBox("-t Timeout")
-    timeout.setToolTip(
-        "Maximum time per mod before the installer stops it. Default is 3600 (1 hour). "
-        "Useful if a mod hangs."
-    )
-    timeout_input = QSpinBox()
-    timeout_input.setMinimum(30)
-    timeout_input.setMaximum(86400)
-    timeout_input.setValue(3600)
-    timeout_input.setEnabled(False)
-
-    per_component = QCheckBox("-u Per‑component logs")
-    per_component.setToolTip("Write one log file per component into the selected folder.")
 
     tick = QCheckBox("-i Tick (dev)")
     tick.setToolTip(
@@ -102,58 +78,52 @@ def build_flags_section(
     tick.setVisible(dev_mode)
     tick_input.setVisible(dev_mode)
 
-    custom_depth.toggled.connect(depth_input.setEnabled)
-    timeout.toggled.connect(timeout_input.setEnabled)
     tick.toggled.connect(tick_input.setEnabled)
 
-    rows: list[tuple[QCheckBox, QSpinBox | None]] = [
-        (pre_eet, None),
-        (new_eet, None),
-        (gen_dir, None),
-        (skip_installed, None),
-        (abort_warnings, None),
-        (custom_depth, depth_input),
-        (strict_matching, None),
-        (download, None),
-        (overwrite, None),
-        (timeout, timeout_input),
-        (per_component, None),
+    rows: list[QWidget] = [
+        weidu_log_mode,
+        skip_installed,
+        pre_eet,
+        abort_warnings,
+        strict_matching,
+        new_eet,
+        download,
+        overwrite,
+        gen_dir,
     ]
     if dev_mode:
-        rows.append((tick, tick_input))
+        rows.append(_with_spinbox(tick, tick_input))
 
-    row = 0
-    col = 0
-    for checkbox, extra in rows:
-        grid.addWidget(checkbox, row, col)
-        if extra is not None:
-            grid.addWidget(extra, row, col + 1)
-        if col == 0:
-            col = 2
-        else:
-            col = 0
-            row += 1
+    columns = 3
+    for idx, widget in enumerate(rows):
+        row = idx // columns
+        col = idx % columns
+        grid.addWidget(widget, row, col)
 
-    grid.setColumnStretch(0, 1)
-    grid.setColumnStretch(1, 0)
-    grid.setColumnStretch(2, 1)
-    grid.setColumnStretch(3, 0)
+    for col in range(columns):
+        grid.setColumnStretch(col, 1)
 
     return (
         box,
         pre_eet,
         new_eet,
         gen_dir,
-        custom_depth,
-        depth_input,
         skip_installed,
         abort_warnings,
-        timeout,
-        timeout_input,
+        weidu_log_mode,
         overwrite,
         strict_matching,
         download,
-        per_component,
         tick,
         tick_input,
     )
+
+
+def _with_spinbox(checkbox: QCheckBox, spinbox: QSpinBox) -> QWidget:
+    wrapper = QWidget()
+    layout = QHBoxLayout(wrapper)
+    layout.setContentsMargins(0, 0, 0, 0)
+    layout.addWidget(checkbox)
+    layout.addWidget(spinbox)
+    layout.addStretch(1)
+    return wrapper

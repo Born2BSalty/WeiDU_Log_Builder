@@ -56,22 +56,27 @@ class SetupSections:
     install_log_checkbox: QCheckBox
     debug_checkbox: QCheckBox
     trace_checkbox: QCheckBox
+    custom_depth_checkbox: QCheckBox
+    depth_input: QSpinBox
+    timeout_checkbox: QCheckBox
+    timeout_input: QSpinBox
     component_logs_box: QGroupBox
-    component_logs_picker: PathPicker
+    weidu_log_autolog_checkbox: QCheckBox
+    weidu_log_logapp_checkbox: QCheckBox
+    weidu_log_logextern_checkbox: QCheckBox
+    weidu_log_log_checkbox: QCheckBox
+    weidu_log_label: QLabel
+    weidu_log_picker: PathPicker
     component_logs_note: QLabel
     flags_box: QGroupBox
     pre_eet_checkbox: QCheckBox
     new_eet_checkbox: QCheckBox
     generate_dir_checkbox: QCheckBox
-    custom_depth_checkbox: QCheckBox
-    depth_input: QSpinBox
     skip_installed_checkbox: QCheckBox
     abort_warnings_checkbox: QCheckBox
-    timeout_checkbox: QCheckBox
-    timeout_input: QSpinBox
+    weidu_log_mode_checkbox: QCheckBox
     overwrite_checkbox: QCheckBox
     strict_matching_checkbox: QCheckBox
     download_checkbox: QCheckBox
-    per_component_checkbox: QCheckBox
     tick_checkbox: QCheckBox
     tick_input: QSpinBox

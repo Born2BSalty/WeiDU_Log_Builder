@@ -23,4 +23,12 @@ def _compat_rules_path() -> Path:
     if getattr(sys, "frozen", False):
         base = Path(sys.executable).resolve().parent
         return base / "_internal" / "config" / "compat_rules.yaml"
-    return Path(__file__).resolve().parents[4] / "config" / "compat_rules.yaml"
+    here = Path(__file__).resolve()
+    for parent in here.parents:
+        direct = parent / "config" / "compat_rules.yaml"
+        if direct.exists():
+            return direct
+        dev = parent / "dev" / "config" / "compat_rules.yaml"
+        if dev.exists():
+            return dev
+    return here.parents[4] / "config" / "compat_rules.yaml"

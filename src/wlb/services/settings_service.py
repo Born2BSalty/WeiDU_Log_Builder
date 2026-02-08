@@ -65,6 +65,24 @@ class SettingsService:
     def rust_log_trace(self) -> bool:
         return bool(self._settings.value("setup/rust_log_trace", False, type=bool))
 
+    def weidu_log_mode_enabled(self) -> bool:
+        return bool(self._settings.value("setup/weidu_log_mode_enabled", False, type=bool))
+
+    def weidu_log_autolog(self) -> bool:
+        return bool(self._settings.value("setup/weidu_log_autolog", True, type=bool))
+
+    def weidu_log_logapp(self) -> bool:
+        return bool(self._settings.value("setup/weidu_log_logapp", True, type=bool))
+
+    def weidu_log_logextern(self) -> bool:
+        return bool(self._settings.value("setup/weidu_log_logextern", True, type=bool))
+
+    def weidu_log_log(self) -> bool:
+        return bool(self._settings.value("setup/weidu_log_log", False, type=bool))
+
+    def weidu_log_folder(self) -> str:
+        return str(self._settings.value("setup/weidu_log_folder", ""))
+
     def pre_eet_enabled(self) -> bool:
         return bool(self._settings.value("setup/pre_eet_enabled", False, type=bool))
 
@@ -99,13 +117,7 @@ class SettingsService:
         return bool(self._settings.value("setup/strict_matching", False, type=bool))
 
     def download(self) -> bool:
-        return bool(self._settings.value("setup/download", False, type=bool))
-
-    def component_logs(self) -> bool:
-        return bool(self._settings.value("setup/component_logs", False, type=bool))
-
-    def component_logs_folder(self) -> str:
-        return str(self._settings.value("setup/component_logs_folder", ""))
+        return bool(self._settings.value("setup/download", True, type=bool))
 
     def tick_enabled(self) -> bool:
         return bool(self._settings.value("setup/tick_enabled", False, type=bool))
